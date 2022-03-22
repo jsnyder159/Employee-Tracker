@@ -14,10 +14,10 @@ class DB {
       // department name from department TABLE
       // AND SELECT salary FROM role TABLE
       // YOUR NEED TO USE LEFT JOINS TO JOIN THREE TABLES
-      // T*ODO: YOUR CODE HERE
-      "SELECT employee.id, employee.first_name, employee.last_name, FROM employee, \
-      department.name, FROM department, \
-      role.salary FROM role, \
+      // TODO: YOUR CODE HERE
+      // department.name FROM department, \
+      // role.salary FROM role, \  join from employ > role  and then role > department
+      "SELECT employee.id, employee.first_name, employee.last_name FROM employee \
       LEFT JOIN role ON role.department_id = department.id \
       LEFT JOIN employee ON employee.role_id = role.id \
       GROUP BY department.id, department.name"
@@ -61,7 +61,7 @@ class DB {
       // SELECT THE FOLLOWING COLUMNS:
       // id, title, salary FROM role TABLE AND department name FROM department TABLE
       // YOU NEED TO USE LEFT JOIN TO JOIN role and department TABLES
-      // T*ODO: YOUR CODE HERE
+      // TODO: YOUR CODE HERE
       "SELECT role.id, role.title, role.salary FROM role \
       department.name, FROM department \
       LEFT JOIN role on role.department_id = department.id \
@@ -111,7 +111,7 @@ class DB {
   // Find all employees by manager, join with departments and roles to display titles and department names
   findAllEmployeesByManager(managerId) {
     return this.connection.query(
-      // T*ODO: YOUR CODE HERE
+      // TODO: YOUR CODE HERE
       "SELECT employee.id, employee.first)name, employee.last_name, role.title \
       FROM employee \
       LEFT JOIN role on employee.role_id = role.id \
