@@ -10,7 +10,6 @@ const connection = mysql.createConnection({
   database: "employees"
 });
 
-//T*ODO: add callback func for error
 connection.connect((err) => {
   if (err) {
     console.error(err);

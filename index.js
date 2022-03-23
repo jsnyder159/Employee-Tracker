@@ -2,15 +2,12 @@ const { prompt } = require("inquirer");
 const logo = require("asciiart-logo");
 const db = require("./db");
 require("console.table");
-
 init();
 
 // Display logo text, load main prompts
 function init() {
   const logoText = logo({ name: "Employee Manager" }).render();
-
   console.log(logoText);
-
   loadMainPrompts();
 }
 
@@ -29,29 +26,14 @@ async function loadMainPrompts() {
           name: "View All Employees By Department",
           value: "VIEW_EMPLOYEES_BY_DEPARTMENT"
         },
-        // Bonus
-        // {
-        //   name: "View All Employees By Manager",
-        //   value: "VIEW_EMPLOYEES_BY_MANAGER"
-        // },
         {
           name: "Add Employee",
           value: "ADD_EMPLOYEE"
         },
-        // Bonus
-        // {
-        //   name: "Remove Employee",
-        //   value: "REMOVE_EMPLOYEE"
-        // },
         {
           name: "Update Employee Role",
           value: "UPDATE_EMPLOYEE_ROLE"
         },
-        // Bonus
-        // {
-        //   name: "Update Employee Manager",
-        //   value: "UPDATE_EMPLOYEE_MANAGER"
-        // },
         {
           name: "View All Roles",
           value: "VIEW_ROLES"
@@ -60,11 +42,6 @@ async function loadMainPrompts() {
           name: "Add Role",
           value: "ADD_ROLE"
         },
-        //  Bonus
-        // {
-        //   name: "Remove Role",
-        //   value: "REMOVE_ROLE"
-        // },
         {
           name: "View All Departments",
           value: "VIEW_DEPARTMENTS"
@@ -73,11 +50,6 @@ async function loadMainPrompts() {
           name: "Add Department",
           value: "ADD_DEPARTMENT"
         },
-        //  Bonus
-        // {
-        //   name: "Remove Department",
-        //   value: "REMOVE_DEPARTMENT"
-        // },
         {
           name: "Quit",
           value: "QUIT"
@@ -111,10 +83,8 @@ async function loadMainPrompts() {
 
 async function viewEmployees() {
   const employees = await db.findAllEmployees();
-
   console.log("\n");
   console.table(employees);
-
   loadMainPrompts();
 }
 
@@ -122,9 +92,6 @@ async function viewEmployeesByDepartment() {
   const departments = await db.findAllDepartments();
 
   const departmentChoices = departments.map(({ id, name }) => ({
-    // CREATE TWO PROPERTIES name AND value FOR THIS OBJECT. THE PROPERTY name SHOULD CONTAIN THE NAME OF THE DEPARTMENT.
-    // THE PROPERTY value SHOULD CONTAIN id.
-    // T*ODO: YOUR CODE HERE
     name: name,
     value: id
   }));
@@ -139,22 +106,15 @@ async function viewEmployeesByDepartment() {
   ]);
 
   const employees = await db.findAllEmployeesByDepartment(departmentId);
-
   console.log("\n");
   console.table(employees);
-
   loadMainPrompts();
 }
 
 async function updateEmployeeRole() {
   const employees = await db.findAllEmployees();
-
   const employeeChoices = employees.map(({ id, first_name, last_name }) => ({
-    // CREATE TWO PROPERTIES name AMD value FOR THIS OBJECT. THE PROPERTY name SHOULD CONTAIN THE CONCATENATION OF THE FIRST HAME AND THE LAST NAME.
-    // THE PROPERTY value SHOULD CONTAIN id.
-    // THIS OBJECT FOR EACH MANAGER WILL RETURN TO MAP() TO CONSTRUCT AN ARRAY TO BE RETURNED AND BE STORED TO managerChoices.
-    // T*ODO: YOUR CODE HERE
-    name: {first_name, last_name},
+    name: `${first_name} ${last_name}`,
     value: id
   }));
 
@@ -168,7 +128,6 @@ async function updateEmployeeRole() {
   ]);
 
   const roles = await db.findAllRoles();
-
   const roleChoices = roles.map(({ id, title }) => ({
     name: title,
     value: id
@@ -184,18 +143,14 @@ async function updateEmployeeRole() {
   ]);
 
   await db.updateEmployeeRole(employeeId, roleId);
-
   console.log("Updated employee's role");
-
   loadMainPrompts();
 }
 
 async function viewRoles() {
   const roles = await db.findAllRoles();
-
   console.log("\n");
   console.table(roles);
-
   loadMainPrompts();
 }
 
@@ -225,18 +180,14 @@ async function addRole() {
   ]);
 
   await db.createRole(role);
-
   console.log(`Added ${role.title} to the database`);
-
   loadMainPrompts();
 }
 
 async function viewDepartments() {
   const departments = await db.findAllDepartments();
-
   console.log("\n");
   console.table(departments);
-
   loadMainPrompts();
 }
 
@@ -247,18 +198,14 @@ async function addDepartment() {
       message: "What is the name of the department?"
     }
   ]);
-
-  await db.createDepartment(department);
-
+  await db.createDepartment(department)
   console.log(`Added ${department.name} to the database`);
-
   loadMainPrompts();
 }
 
 async function addEmployee() {
   const roles = await db.findAllRoles();
   const employees = await db.findAllEmployees();
-
   const employee = await prompt([
     {
       name: "first_name",
@@ -285,11 +232,7 @@ async function addEmployee() {
   employee.role_id = roleId;
 
   const managerChoices = employees.map(({ id, first_name, last_name }) => ({
-    // CREATE TWO PROPERTIES name AMD value FOR THIS OBJECT. THE PROPERTY name SHOULD CONTAIN THE CONCATENATION OF THE FIRST HAME AND THE LAST NAME.
-    // THE PROPERTY value SHOULD CONTAIN id.
-    // THIS OBJECT FOR EACH MANAGER WILL RETURN TO MAP() TO CONSTRUCT AN ARRAY TO BE RETURNED AND BE STORED TO managerChoices.
-    // T*ODO: YOUR CODE HERE
-    name: {first_name, last_name},
+    name: `${first_name} ${last_name}`,
     value: id
   }));
   managerChoices.unshift({ name: "None", value: null });
@@ -302,13 +245,10 @@ async function addEmployee() {
   });
 
   employee.manager_id = managerId;
-
   await db.createEmployee(employee);
-
   console.log(
     `Added ${employee.first_name} ${employee.last_name} to the database`
   );
-
   loadMainPrompts();
 }
 

@@ -9,14 +9,6 @@ class DB {
   // Find all employees, join with roles and departments to display their roles, salaries, departments, and managers
   findAllEmployees() {
     return this.connection.query(
-      // CREATE SELECT STATMENT WITH THE FOLLOWING COLUMNS FROM THREE TABLES.
-      // id, first_name, last_name FROM employee TABLE AND
-      // department name from department TABLE
-      // AND SELECT salary FROM role TABLE
-      // YOUR NEED TO USE LEFT JOINS TO JOIN THREE TABLES
-      // TODO: YOUR CODE HERE
-      // department.name FROM department, \
-      // role.salary FROM role, \  join from employ > role  and then role > department
       "SELECT employee.id, employee.first_name, employee.last_name FROM employee \
       LEFT JOIN role ON employee.role_id = role.id \
       LEFT JOIN department ON role.department_id = department.id \
@@ -37,11 +29,9 @@ class DB {
     return this.connection.query("INSERT INTO employee SET ?", employee);
   }
 
-
   // Update the given employee's role
   updateEmployeeRole(employeeId, roleId) {
     return this.connection.query(
-      // T*ODO: YOUR CODE HERE
       "UPDATE employee SET role_id = ? WHERE id = ?",
       [employeeId, roleId]
     );
@@ -51,17 +41,13 @@ class DB {
   updateEmployeeManager(employeeId, managerId) {
     return this.connection.query(
       "UPDATE employee SET manager_id = ? WHERE id = ?",
-      [managerId, employeeId]
+      [employeeId, managerId]
     );
   }
 
   // Find all roles, join with departments to display the department name
   findAllRoles() {
     return this.connection.query(
-      // SELECT THE FOLLOWING COLUMNS:
-      // id, title, salary FROM role TABLE AND department name FROM department TABLE
-      // YOU NEED TO USE LEFT JOIN TO JOIN role and department TABLES
-      // TODO: YOUR CODE HERE
       "SELECT role.id, role.title, role.salary FROM role \
       LEFT JOIN department ON role.department_id = department.id \
       GROUP BY department.id, department.name "
@@ -71,11 +57,9 @@ class DB {
   // Create a new role
   createRole(role) {
     return this.connection.query(
-      // T*ODO: YOUR CODE HERE
       "INSERT INTO role SET ?", role
       );
   }
-
 
   // Find all departments, join with employees and roles and sum up utilized department budget
   findAllDepartments() {
@@ -90,7 +74,6 @@ class DB {
   // Create a new department
   createDepartment(department) {
     return this.connection.query(
-      // T*ODO: YOUR CODE HERE
       "INSERT INTO department SET ?", department
     );
   }
@@ -110,7 +93,6 @@ class DB {
   // Find all employees by manager, join with departments and roles to display titles and department names
   findAllEmployeesByManager(managerId) {
     return this.connection.query(
-      // TODO: YOUR CODE HERE
       "SELECT employee.id, employee.first)name, employee.last_name FROM employee \
       LEFT JOIN role on employee.role_id = role.id \
       LEFT JOIN department department on role.department_id = department.id \
