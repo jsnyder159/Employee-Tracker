@@ -18,8 +18,8 @@ class DB {
       // department.name FROM department, \
       // role.salary FROM role, \  join from employ > role  and then role > department
       "SELECT employee.id, employee.first_name, employee.last_name FROM employee \
-      LEFT JOIN role ON role.department_id = department.id \
-      LEFT JOIN employee ON employee.role_id = role.id \
+      LEFT JOIN role ON employee.role_id = role.id \
+      LEFT JOIN department ON role.department_id = department.id \
       GROUP BY department.id, department.name"
     );
   }
@@ -43,7 +43,7 @@ class DB {
     return this.connection.query(
       // T*ODO: YOUR CODE HERE
       "UPDATE employee SET role_id = ? WHERE id = ?",
-      [roleId, employeeId]
+      [employeeId, roleId]
     );
   }
 
@@ -63,8 +63,7 @@ class DB {
       // YOU NEED TO USE LEFT JOIN TO JOIN role and department TABLES
       // TODO: YOUR CODE HERE
       "SELECT role.id, role.title, role.salary FROM role \
-      department.name, FROM department \
-      LEFT JOIN role on role.department_id = department.id \
+      LEFT JOIN department ON role.department_id = department.id \
       GROUP BY department.id, department.name "
     );
   }
@@ -112,8 +111,7 @@ class DB {
   findAllEmployeesByManager(managerId) {
     return this.connection.query(
       // TODO: YOUR CODE HERE
-      "SELECT employee.id, employee.first)name, employee.last_name, role.title \
-      FROM employee \
+      "SELECT employee.id, employee.first)name, employee.last_name FROM employee \
       LEFT JOIN role on employee.role_id = role.id \
       LEFT JOIN department department on role.department_id = department.id \
       WHERE manager.id \ ?;",
