@@ -9,10 +9,10 @@ class DB {
   // Find all employees, join with roles and departments to display their roles, salaries, departments, and managers
   findAllEmployees() {
     return this.connection.query(
-      "SELECT employee.id, employee.first_name, employee.last_name FROM employee \
+      "SELECT employee.id, employee.first_name, employee.last_name, role.title, department.name, role.salary, CONCAT(manager.first_name, ' ', manager.last_name) AS manager FROM employee \
       LEFT JOIN role ON employee.role_id = role.id \
       LEFT JOIN department ON role.department_id = department.id \
-      GROUP BY department.id, department.name"
+      LEFT JOIN employee manager on manager.id = employee.manager_id"
     );
   }
 
@@ -48,9 +48,8 @@ class DB {
   // Find all roles, join with departments to display the department name
   findAllRoles() {
     return this.connection.query(
-      "SELECT role.id, role.title, role.salary FROM role \
-      LEFT JOIN department ON role.department_id = department.id \
-      GROUP BY department.id, department.name "
+      "SELECT role.id, role.title, department.name, role.salary FROM role \
+      LEFT JOIN department ON role.department_id = department.id"
     );
   }
 
@@ -58,7 +57,7 @@ class DB {
   createRole(role) {
     return this.connection.query(
       "INSERT INTO role SET ?", role
-      );
+    );
   }
 
   // Find all departments, join with employees and roles and sum up utilized department budget
@@ -93,10 +92,10 @@ class DB {
   // Find all employees by manager, join with departments and roles to display titles and department names
   findAllEmployeesByManager(managerId) {
     return this.connection.query(
-      "SELECT employee.id, employee.first)name, employee.last_name FROM employee \
+      "SELECT employee.id, employee.first_name, employee.last_name FROM employee \
       LEFT JOIN role on employee.role_id = role.id \
       LEFT JOIN department department on role.department_id = department.id \
-      WHERE manager.id \ ?;",
+      WHERE manager.id = ?;",
       managerId
     );
   }
